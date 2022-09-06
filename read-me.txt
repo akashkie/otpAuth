@@ -1,0 +1,74 @@
+ step 1.-->    first  need to install  npm install --save @react-native-firebase/app
+step2.-->     need to  install  npm install --save @react-native-firebase/auth
+
+If you're developing your app using iOS, run this command
+cd ios/ && pod install
+
+On the Firebase console, add a new Android application and enter your projects details. The "Android package name" must match your local projects package name which can be found inside of the manifest tag within the /android/app/src/main/AndroidManifest.xml file within your project.
+e.g -' com.otpverification'
+The debug signing certificate is optional to use Firebase with your app, but is required for Dynamic Links, Invites and Phone Authentication. To generate a certificate run cd android && ./gradlew signingReport. This generates two variant keys. You have to copy both 'SHA1' and 'SHA-256' keys that belong to the 'debugAndroidTest' variant key option. Then, you can add those keys to the 'SHA certificate fingerprints' on your app in Firebase console.
+
+to get SHA finger prints in terminal run this command in terminal
+keytool -list -v -keystore ./android/App/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
+you will get two keys 
+
+Certificate fingerprints:
+         SHA1: 5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25
+         SHA256: FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C
+
+         like this  you need it later so copy paste them in notepad .
+
+
+step 3.-->  create a project in firebase console for android/ios/web . i am creating project  for android here
+
+create an email for project :
+ e.g -  dwork264@gmail.com
+
+ >  now open firebase console . on nav bar click on        go to console
+ >   now create a project  in fire base  console
+ >  give a project name .
+
+ >  you can enable or disable google analytics based on your requirement .iam disabling it cause im using for testing purpose .
+
+ >  then click on create project  then project will be created then click continue.
+
+ > click on icons provided below get started by add ing to your app. iam clicking on android because iam creating app for android.
+
+ > now it will show a register app screen here you have to register your app.
+
+ > on androoid package name  :  
+   The "Android package name" must match your local project package name which can be found inside of the manifest tag within the /android/app/src/main/AndroidManifest.xml file within your project.
+
+ > give ant app nick name 
+
+ >   now you need to give sha 1 : certificate there  
+ > now click  on register app
+  
+  >  it will give you error  so provide some unique package name to avoid this error 
+
+  > now click on next and next  don't download or make ant changes here.
+
+  > now go to project settings go to your app and there add sha 256 finger print 
+
+> after adding sha 256  fingerprint  now download google services .json file and place it in your projects's 
+ android/app/ folder 
+ e.g           ( /android/app/google-services.json ).
+
+ now its time to do some changes in build.gradle file in both android and  app folder 
+
+ > First, add the google-services plugin as a dependency inside of your /android/build.gradle file
+ buildscript {
+  dependencies {
+    // ... other dependencies
+    classpath 'com.google.gms:google-services:4.3.13'
+    // Add me --- (add above classpath in dependencies)
+  }
+}
+
+>   Lastly, execute the plugin by adding the following to your /android/app/build.gradle file:
+
+apply plugin: 'com.google.gms.google-services' // <- Add this line  on top og the grsdlefile.below apply plugin.
+
+
+ now  create component directory and create file name authprovider 
